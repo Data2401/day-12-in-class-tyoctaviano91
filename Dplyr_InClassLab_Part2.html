@@ -354,13 +354,12 @@ display: none;
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.5.1</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
+## ✔ dplyr     1.1.4     ✔ readr     2.1.6
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.1     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -377,14 +376,48 @@ library(tidyverse)
 
 my_flights &lt;- flights ## getting a copy of the data in the environment</code></pre>
 <ol style="list-style-type: decimal">
-<li><p>Use functions to inspect it: how many rows and columns does it
-have? What are the names of the columns? Hint: Use
-<code>??flights</code> to search for documentation on the data set (for
-what the columns contain)</p></li>
-<li><p>Use <code>dplyr</code> to give the dataframe two new columns:
+<li>Use functions to inspect it: how many rows and columns does it have?
+What are the names of the columns? Hint: Use <code>??flights</code> to
+search for documentation on the data set (for what the columns
+contain)</li>
+</ol>
+<pre class="r"><code>dim(my_flights)</code></pre>
+<pre><code>## [1] 336776     19</code></pre>
+<pre class="r"><code>colnames(my_flights)</code></pre>
+<pre><code>##  [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;            &quot;dep_time&quot;      
+##  [5] &quot;sched_dep_time&quot; &quot;dep_delay&quot;      &quot;arr_time&quot;       &quot;sched_arr_time&quot;
+##  [9] &quot;arr_delay&quot;      &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;       
+## [13] &quot;origin&quot;         &quot;dest&quot;           &quot;air_time&quot;       &quot;distance&quot;      
+## [17] &quot;hour&quot;           &quot;minute&quot;         &quot;time_hour&quot;</code></pre>
+<pre class="r"><code>glimpse(my_flights)</code></pre>
+<pre><code>## Rows: 336,776
+## Columns: 19
+## $ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
+## $ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, …
+## $ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, …
+## $ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1…
+## $ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849,…
+## $ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851,…
+## $ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -1…
+## $ carrier        &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;, &quot;…
+## $ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 4…
+## $ tailnum        &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N394…
+## $ origin         &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;,…
+## $ dest           &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IAD&quot;,…
+## $ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 1…
+## $ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, …
+## $ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6…
+## $ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0…
+## $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0…</code></pre>
+<pre class="r"><code>## Rows: 336776
+## Columns: 19</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>dplyr</code> to give the dataframe two new columns:
 <code>gain = dep_delay - arr_delay</code> that is the amount of time
 gained while flying and
-<code>speed = distance / air_time * 60</code>.</p></li>
+<code>speed = distance / air_time * 60</code>.</li>
 </ol>
 <p>New skill: Use <code>.before = 1</code> as an argument to
 <code>mutate</code> to add the new variables to the left hand side of
@@ -392,20 +425,70 @@ the dataset. The . indicates that <code>.before</code> is an argument to
 the function, not the name of a third new variable we are creating. You
 can use .before or .after to tell R where to put the new variable you’ve
 made.</p>
+<pre class="r"><code>my_flights %&gt;% mutate(gain = dep_delay - arr_delay, speed = distance / air_time * 60)</code></pre>
+<pre><code>## # A tibble: 336,776 × 21
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 13 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</code></pre>
+<pre class="r"><code>my_flights &lt;- my_flights %&gt;% mutate(gain = dep_delay - arr_delay, 
+                                    speed = distance / air_time * 60, .before = 1)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Use <code>dplyr</code> to sort your data frame in descending
-order by the column you just created. Remember to save this as a
-variable (or in the same one!)</p></li>
-<li><p>If you haven’t already, do the last 2 steps in a single statement
-using the pipe operator.</p></li>
-<li><p>On average, did flights gain or lose time? Note: use the
-<code>na.rm = TRUE</code> argument to remove NA values from your
-calc</p></li>
-<li><p>Create a data.frame of flights with a destination of Hobby
-Airport (Airport code ‘HOU’), only including the origin, destination,
-and the “made_up_time” column you just created</p></li>
-<li><p>On average, did flights to SeaTac gain or lose time?</p></li>
+<li>Use <code>dplyr</code> to sort your data frame in descending order
+by the column you just created. Remember to save this as a variable (or
+in the same one!)</li>
 </ol>
+<pre class="r"><code>my_flights %&gt;% arrange(-gain) %&gt;% head(6)</code></pre>
+<pre><code>## # A tibble: 6 × 21
+##    gain speed  year month   day dep_time sched_dep_time dep_delay arr_time
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+## 1   109  390.  2013     6    13     1907           1512       235     2134
+## 2    87  512.  2013     2    26     1000            900        60     1513
+## 3    80  499.  2013     2    23     1226            900       206     1746
+## 4    79  496.  2013     5    13     1917           1900        17     2149
+## 5    76  508.  2013     2    27      924            900        24     1448
+## 6    74  533.  2013     7    14     1917           1829        48     2109
+## # ℹ 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
+## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>If you haven’t already, do the last 2 steps in a single statement
+using the pipe operator.</li>
+</ol>
+<pre class="r"><code>my_flights_piped &lt;- my_flights %&gt;% 
+  mutate(.before = 1, gain = dep_delay - arr_delay, speed = distance / air_time * 60) %&gt;% 
+  arrange(desc(gain))</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>On average, did flights gain or lose time? Note: use the
+<code>na.rm = TRUE</code> argument to remove NA values from your
+calc</li>
+</ol>
+<pre class="r"><code>mean(my_flights$gain, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 5.659779</code></pre>
+<pre class="r"><code>## gained time on average</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Create a data.frame of flights with a destination of Hobby Airport
+(Airport code ‘HOU’), only including the origin, destination, and the
+“made_up_time” column you just created</li>
+</ol>
+<pre class="r"><code>houston_flights &lt;- my_flights %&gt;% select(origin, dest, gain) %&gt;% filter(dest == &quot;HOU&quot;)</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>On average, did flights to Houston gain or lose time?</li>
+</ol>
+<pre class="r"><code>mean(houston_flights$gain, na.rm = T)</code></pre>
+<pre><code>## [1] 6.901584</code></pre>
 </div>
 <div id="exercise" class="section level2">
 <h2>Exercise:</h2>
@@ -413,12 +496,60 @@ and the “made_up_time” column you just created</p></li>
 SEA. What was the average, min, and max air time of those flights? Use
 pipes to answer this question in one statement (without showing any
 other data)!</p>
+<pre class="r"><code>my_flights %&gt;% 
+  filter(origin == &quot;JFK&quot;, dest == &quot;SEA&quot;) %&gt;% 
+  summarize(across(air_time, list(mean = mean, max = max, min = min)))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   air_time_mean air_time_max air_time_min
+##           &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1            NA           NA           NA</code></pre>
+<pre class="r"><code>my_flights %&gt;% 
+  drop_na(air_time) %&gt;% 
+  filter(origin == &quot;JFK&quot;, dest == &quot;SEA&quot;) %&gt;% 
+  summarise(across(air_time, list(mean = mean, max = max, min = min)))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   air_time_mean air_time_max air_time_min
+##           &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1          329.          389          275</code></pre>
 <p>Consider flights coming into Houston (HOU and IAH). What is the mean
 arrival delay by departure airport?</p>
+<pre class="r"><code>my_flights %&gt;% filter(dest %in% c(&quot;HOU&quot;, &quot;IAH&quot;)) %&gt;% 
+  group_by(origin) %&gt;% 
+  summarise(mean_delay = mean(arr_delay, no.rm = T)) %&gt;% arrange(mean_delay)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   origin mean_delay
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 EWR            NA
+## 2 JFK            NA
+## 3 LGA            NA</code></pre>
 <p>Find the flights that are most delayed upon departure from each
 origin.</p>
+<pre class="r"><code>my_flights %&gt;% 
+  group_by(origin) %&gt;% 
+  slice_max(arr_delay, n = 1) %&gt;% 
+  select(origin, dest, carrier, arr_delay, everything())</code></pre>
+<pre><code>## # A tibble: 3 × 21
+## # Groups:   origin [3]
+##   origin dest  carrier arr_delay  gain speed  year month   day dep_time
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;
+## 1 EWR    ORD   MQ           1109    17  389.  2013     1    10     1121
+## 2 JFK    HNL   HA           1272    29  467.  2013     1     9      641
+## 3 LGA    MSP   DL            915    -4  366.  2013     3    17     2321
+## # ℹ 11 more variables: sched_dep_time &lt;int&gt;, dep_delay &lt;dbl&gt;, arr_time &lt;int&gt;,
+## #   sched_arr_time &lt;int&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, air_time &lt;dbl&gt;,
+## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Getting ready for next class: look at all the different values for
 the airport.</p>
+<pre class="r"><code>unique(my_flights$dest)</code></pre>
+<pre><code>##   [1] &quot;IAH&quot; &quot;MIA&quot; &quot;BQN&quot; &quot;ATL&quot; &quot;ORD&quot; &quot;FLL&quot; &quot;IAD&quot; &quot;MCO&quot; &quot;PBI&quot; &quot;TPA&quot; &quot;LAX&quot; &quot;SFO&quot;
+##  [13] &quot;DFW&quot; &quot;BOS&quot; &quot;LAS&quot; &quot;MSP&quot; &quot;DTW&quot; &quot;RSW&quot; &quot;SJU&quot; &quot;PHX&quot; &quot;BWI&quot; &quot;CLT&quot; &quot;BUF&quot; &quot;DEN&quot;
+##  [25] &quot;SNA&quot; &quot;MSY&quot; &quot;SLC&quot; &quot;XNA&quot; &quot;MKE&quot; &quot;SEA&quot; &quot;ROC&quot; &quot;SYR&quot; &quot;SRQ&quot; &quot;RDU&quot; &quot;CMH&quot; &quot;JAX&quot;
+##  [37] &quot;CHS&quot; &quot;MEM&quot; &quot;PIT&quot; &quot;SAN&quot; &quot;DCA&quot; &quot;CLE&quot; &quot;STL&quot; &quot;MYR&quot; &quot;JAC&quot; &quot;MDW&quot; &quot;HNL&quot; &quot;BNA&quot;
+##  [49] &quot;AUS&quot; &quot;BTV&quot; &quot;PHL&quot; &quot;STT&quot; &quot;EGE&quot; &quot;AVL&quot; &quot;PWM&quot; &quot;IND&quot; &quot;SAV&quot; &quot;CAK&quot; &quot;HOU&quot; &quot;LGB&quot;
+##  [61] &quot;DAY&quot; &quot;ALB&quot; &quot;BDL&quot; &quot;MHT&quot; &quot;MSN&quot; &quot;GSO&quot; &quot;CVG&quot; &quot;BUR&quot; &quot;RIC&quot; &quot;GSP&quot; &quot;GRR&quot; &quot;MCI&quot;
+##  [73] &quot;ORF&quot; &quot;SAT&quot; &quot;SDF&quot; &quot;PDX&quot; &quot;SJC&quot; &quot;OMA&quot; &quot;CRW&quot; &quot;OAK&quot; &quot;SMF&quot; &quot;TUL&quot; &quot;TYS&quot; &quot;OKC&quot;
+##  [85] &quot;PVD&quot; &quot;DSM&quot; &quot;PSE&quot; &quot;BHM&quot; &quot;CAE&quot; &quot;HDN&quot; &quot;BZN&quot; &quot;MTJ&quot; &quot;EYW&quot; &quot;PSP&quot; &quot;ACK&quot; &quot;BGR&quot;
+##  [97] &quot;ABQ&quot; &quot;ILM&quot; &quot;MVY&quot; &quot;SBN&quot; &quot;LEX&quot; &quot;CHO&quot; &quot;TVC&quot; &quot;ANC&quot; &quot;LGA&quot;</code></pre>
 <p>Hmm… I don’t know about you, but it sure does seem like there are
 some values here I don’t recognize!</p>
 </div>
@@ -444,18 +575,353 @@ easier to use built-in data!).</p>
 ## $ films      &lt;list&gt; &lt;&quot;A New Hope&quot;, &quot;The Empire Strikes Back&quot;, &quot;Return of the J…
 ## $ vehicles   &lt;list&gt; &lt;&quot;Snowspeeder&quot;, &quot;Imperial Speeder Bike&quot;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &quot;Imp…
 ## $ starships  &lt;list&gt; &lt;&quot;X-wing&quot;, &quot;Imperial shuttle&quot;&gt;, &lt;&gt;, &lt;&gt;, &quot;TIE Advanced x1&quot;,…</code></pre>
+<pre class="r"><code>starwars$vehicles</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Snowspeeder&quot;           &quot;Imperial Speeder Bike&quot;
+## 
+## [[2]]
+## character(0)
+## 
+## [[3]]
+## character(0)
+## 
+## [[4]]
+## character(0)
+## 
+## [[5]]
+## [1] &quot;Imperial Speeder Bike&quot;
+## 
+## [[6]]
+## character(0)
+## 
+## [[7]]
+## character(0)
+## 
+## [[8]]
+## character(0)
+## 
+## [[9]]
+## character(0)
+## 
+## [[10]]
+## [1] &quot;Tribubble bongo&quot;
+## 
+## [[11]]
+## [1] &quot;Zephyr-G swoop bike&quot; &quot;XJ-6 airspeeder&quot;    
+## 
+## [[12]]
+## character(0)
+## 
+## [[13]]
+## [1] &quot;AT-ST&quot;
+## 
+## [[14]]
+## character(0)
+## 
+## [[15]]
+## character(0)
+## 
+## [[16]]
+## character(0)
+## 
+## [[17]]
+## [1] &quot;Snowspeeder&quot;
+## 
+## [[18]]
+## character(0)
+## 
+## [[19]]
+## character(0)
+## 
+## [[20]]
+## character(0)
+## 
+## [[21]]
+## character(0)
+## 
+## [[22]]
+## character(0)
+## 
+## [[23]]
+## character(0)
+## 
+## [[24]]
+## character(0)
+## 
+## [[25]]
+## character(0)
+## 
+## [[26]]
+## character(0)
+## 
+## [[27]]
+## character(0)
+## 
+## [[28]]
+## character(0)
+## 
+## [[29]]
+## character(0)
+## 
+## [[30]]
+## character(0)
+## 
+## [[31]]
+## [1] &quot;Tribubble bongo&quot;
+## 
+## [[32]]
+## character(0)
+## 
+## [[33]]
+## character(0)
+## 
+## [[34]]
+## character(0)
+## 
+## [[35]]
+## character(0)
+## 
+## [[36]]
+## character(0)
+## 
+## [[37]]
+## character(0)
+## 
+## [[38]]
+## character(0)
+## 
+## [[39]]
+## character(0)
+## 
+## [[40]]
+## character(0)
+## 
+## [[41]]
+## character(0)
+## 
+## [[42]]
+## character(0)
+## 
+## [[43]]
+## [1] &quot;Sith speeder&quot;
+## 
+## [[44]]
+## character(0)
+## 
+## [[45]]
+## character(0)
+## 
+## [[46]]
+## character(0)
+## 
+## [[47]]
+## character(0)
+## 
+## [[48]]
+## character(0)
+## 
+## [[49]]
+## character(0)
+## 
+## [[50]]
+## character(0)
+## 
+## [[51]]
+## character(0)
+## 
+## [[52]]
+## character(0)
+## 
+## [[53]]
+## character(0)
+## 
+## [[54]]
+## character(0)
+## 
+## [[55]]
+## character(0)
+## 
+## [[56]]
+## character(0)
+## 
+## [[57]]
+## character(0)
+## 
+## [[58]]
+## character(0)
+## 
+## [[59]]
+## character(0)
+## 
+## [[60]]
+## character(0)
+## 
+## [[61]]
+## character(0)
+## 
+## [[62]]
+## character(0)
+## 
+## [[63]]
+## character(0)
+## 
+## [[64]]
+## character(0)
+## 
+## [[65]]
+## character(0)
+## 
+## [[66]]
+## [1] &quot;Flitknot speeder&quot;
+## 
+## [[67]]
+## character(0)
+## 
+## [[68]]
+## character(0)
+## 
+## [[69]]
+## [1] &quot;Koro-2 Exodrive airspeeder&quot;
+## 
+## [[70]]
+## character(0)
+## 
+## [[71]]
+## character(0)
+## 
+## [[72]]
+## character(0)
+## 
+## [[73]]
+## character(0)
+## 
+## [[74]]
+## character(0)
+## 
+## [[75]]
+## character(0)
+## 
+## [[76]]
+## character(0)
+## 
+## [[77]]
+## character(0)
+## 
+## [[78]]
+## [1] &quot;Tsmeu-6 personal wheel bike&quot;
+## 
+## [[79]]
+## character(0)
+## 
+## [[80]]
+## character(0)
+## 
+## [[81]]
+## character(0)
+## 
+## [[82]]
+## character(0)
+## 
+## [[83]]
+## character(0)
+## 
+## [[84]]
+## character(0)
+## 
+## [[85]]
+## character(0)
+## 
+## [[86]]
+## character(0)
+## 
+## [[87]]
+## character(0)</code></pre>
 <p>We’re going to use this to practice some data wrangling with
 <code>dplyr</code>.</p>
 <p>How many characters are from each planet?</p>
+<pre class="r"><code>starwars %&gt;% 
+  group_by(homeworld) %&gt;% 
+  summarise(n_characters = n())</code></pre>
+<pre><code>## # A tibble: 49 × 2
+##    homeworld      n_characters
+##    &lt;chr&gt;                 &lt;int&gt;
+##  1 Alderaan                  3
+##  2 Aleen Minor               1
+##  3 Bespin                    1
+##  4 Bestine IV                1
+##  5 Cato Neimoidia            1
+##  6 Cerea                     1
+##  7 Champala                  1
+##  8 Chandrila                 1
+##  9 Concord Dawn              1
+## 10 Corellia                  2
+## # ℹ 39 more rows</code></pre>
+<pre class="r"><code>starwars %&gt;% count(homeworld) %&gt;% arrange(-n)</code></pre>
+<pre><code>## # A tibble: 49 × 2
+##    homeworld     n
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 Naboo        11
+##  2 Tatooine     10
+##  3 &lt;NA&gt;         10
+##  4 Alderaan      3
+##  5 Coruscant     3
+##  6 Kamino        3
+##  7 Corellia      2
+##  8 Kashyyyk      2
+##  9 Mirial        2
+## 10 Ryloth        2
+## # ℹ 39 more rows</code></pre>
 <p>If you wanted to arrange this in descending order, what would you add
 to the pipe?</p>
 <p>Find the average height for each eye color. You might find some of
 the answers to be strange, but keep going!</p>
+<pre class="r"><code>starwars %&gt;% group_by(eye_color) %&gt;% summarise(mean_height = mean(height))</code></pre>
+<pre><code>## # A tibble: 15 × 2
+##    eye_color     mean_height
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 black                 NA 
+##  2 blue                 182.
+##  3 blue-gray            182 
+##  4 brown                 NA 
+##  5 dark                  NA 
+##  6 gold                 191 
+##  7 green, yellow        216 
+##  8 hazel                 NA 
+##  9 orange               180.
+## 10 pink                 180 
+## 11 red                  155.
+## 12 red, blue             96 
+## 13 unknown               NA 
+## 14 white                178 
+## 15 yellow               178.</code></pre>
 <p>So…. What’s with the NAs? Filter down to just brown eyes find out
 what’s going on.</p>
+<pre class="r"><code>starwars %&gt;% filter(eye_color == &quot;brown&quot;) %&gt;% summarise(mean_height = mean(height))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   mean_height
+##         &lt;dbl&gt;
+## 1          NA</code></pre>
 <p>Okay, so we have missing data here. Try summarising with
 <code>na.omit(height)</code> instead of just <code>height</code> or
 adding <code>na.rm = T</code> to the mean function inside summarize.</p>
+<pre class="r"><code>starwars %&gt;% drop_na(height) %&gt;% group_by(eye_color) %&gt;% summarise(mean_height = mean(height))</code></pre>
+<pre><code>## # A tibble: 14 × 2
+##    eye_color     mean_height
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 black                185 
+##  2 blue                 182.
+##  3 blue-gray            182 
+##  4 brown                167.
+##  5 gold                 191 
+##  6 green, yellow        216 
+##  7 hazel                174 
+##  8 orange               180.
+##  9 pink                 180 
+## 10 red                  155.
+## 11 red, blue             96 
+## 12 unknown              136 
+## 13 white                178 
+## 14 yellow               178.</code></pre>
 <p>So, who is the tallest male? How many blue eyed women are there? How
 many genders are there? Answer these questions and spend some time
 asking and answering some of your own. (Or, move to the homework and
